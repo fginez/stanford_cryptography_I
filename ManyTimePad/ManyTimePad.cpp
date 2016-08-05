@@ -3,8 +3,6 @@
 
 #include "stdafx.h"
 
-//#define _INCLUDE_SPECIAL_CHARS
-
 // Resources
 static unsigned char ciphertext_1[] = {0x31, 0x5C, 0x4E, 0xEA, 0xA8, 0xB5, 0xF8, 0xAA, 0xF9, 0x17, 0x41, 0x45, 0xBF, 0x43, 0xE1, 0x78, 0x4B, 0x8F, 0xA0, 0x0D, 0xC7, 0x1D, 0x88, 0x5A, 0x80, 0x4E, 0x5E, 0xE9, 0xFA, 0x40, 0xB1, 0x63, 0x49, 0xC1, 0x46, 0xFB, 0x77, 0x8C, 0xDF, 0x2D, 0x3A, 0xFF, 0x02, 0x1D, 0xFF, 0xF5, 0xB4, 0x03, 0xB5, 0x10, 0xD0, 0xD0, 0x45, 0x54, 0x68, 0xAE, 0xB9, 0x86, 0x22, 0xB1, 0x37, 0xDA, 0xE8, 0x57, 0x55, 0x3C, 0xCD, 0x88, 0x83, 0xA7, 0xBC, 0x37, 0x52, 0x0E, 0x06, 0xE5, 0x15, 0xD2, 0x2C, 0x95, 0x4E, 0xBA, 0x50, 0x25, 0xB8, 0xCC, 0x57, 0xEE, 0x59, 0x41, 0x8C, 0xE7, 0xDC, 0x6B, 0xC4, 0x15, 0x56, 0xBD, 0xB3, 0x6B, 0xBC, 0xA3, 0xE8, 0x77, 0x43, 0x01, 0xFB, 0xCA, 0xA3, 0xB8, 0x3B, 0x22, 0x08, 0x09, 0x56, 0x09, 0x87, 0x81, 0x5F, 0x65, 0x28, 0x67, 0x64, 0x70, 0x3D, 0xE0, 0xF3, 0xD5, 0x24, 0x40, 0x0A, 0x19, 0xB1, 0x59, 0x61, 0x0B, 0x11, 0xEF, 0x3E};
 static unsigned char ciphertext_2[] = {0x23, 0x4C, 0x02, 0xEC, 0xBB, 0xFB, 0xAF, 0xA3, 0xED, 0x18, 0x51, 0x0A, 0xBD, 0x11, 0xFA, 0x72, 0x4F, 0xCD, 0xA2, 0x01, 0x8A, 0x1A, 0x83, 0x42, 0xCF, 0x06, 0x4B, 0xBD, 0xE5, 0x48, 0xB1, 0x2B, 0x07, 0xDF, 0x44, 0xBA, 0x71, 0x91, 0xD9, 0x60, 0x6E, 0xF4, 0x08, 0x1F, 0xFD, 0xE5, 0xAD, 0x46, 0xA5, 0x06, 0x9D, 0x9F, 0x7F, 0x54, 0x3B, 0xED, 0xB9, 0xC8, 0x61, 0xBF, 0x29, 0xC7, 0xE2, 0x05, 0x13, 0x2E, 0xDA, 0x93, 0x82, 0xB0, 0xBC, 0x2C, 0x5C, 0x4B, 0x45, 0xF9, 0x19, 0xCF, 0x3A, 0x9F, 0x1C, 0xB7, 0x41, 0x51, 0xF6, 0xD5, 0x51, 0xF4, 0x48, 0x0C, 0x82, 0xB2, 0xCB, 0x24, 0xCC, 0x5B, 0x02, 0x8A, 0xA7, 0x6E, 0xB7, 0xB4, 0xAB, 0x24, 0x17, 0x1A, 0xB3, 0xCD, 0xAD, 0xB8, 0x35, 0x6F};
@@ -19,33 +17,127 @@ static unsigned char ciphertext_10[]= {0x46, 0x6D, 0x06, 0xEC, 0xE9, 0x98, 0xB7,
 
 static unsigned char ciphertext_target[] = {0x32, 0x51, 0x0B, 0xA9, 0xBA, 0xBE, 0xBB, 0xBE, 0xFD, 0x00, 0x15, 0x47, 0xA8, 0x10, 0xE6, 0x71, 0x49, 0xCA, 0xEE, 0x11, 0xD9, 0x45, 0xCD, 0x7F, 0xC8, 0x1A, 0x05, 0xE9, 0xF8, 0x5A, 0xAC, 0x65, 0x0E, 0x90, 0x52, 0xBA, 0x6A, 0x8C, 0xD8, 0x25, 0x7B, 0xF1, 0x4D, 0x13, 0xE6, 0xF0, 0xA8, 0x03, 0xB5, 0x4F, 0xDE, 0x9E, 0x77, 0x47, 0x2D, 0xBF, 0xF8, 0x9D, 0x71, 0xB5, 0x7B, 0xDD, 0xEF, 0x12, 0x13, 0x36, 0xCB, 0x85, 0xCC, 0xB8, 0xF3, 0x31, 0x5F, 0x4B, 0x52, 0xE3, 0x01, 0xD1, 0x6E, 0x9F, 0x52, 0xF9, 0x04};
 
-#ifdef _INCLUDE_NUMBERS
-static const int max_len = ('z' - 'a' + 1) + ('Z' -'A' + 1) + ('9' - '0' + 1);
-#else
-static const int max_len = ('z' - 'a' + 1) + ('Z' -'A' + 1);
-#endif
+static unsigned char english_frequent[114][20] = {" the ",
+                                                 " be ",
+											     " and ",
+											     " of ",
+											     " a ",
+											     " in ",
+												 " that ",
+											     " have ",
+											     " it ",
+												 " for ",
+												 " not ",
+												 " on ",
+												 " with ",
+												 " he ",
+												 " as ",
+												 " you ",
+												 " do ",
+												 " at ",
+												 " this ",
+												 " but ",
+												 " his ",
+												 " by ",
+												 " from ",
+												 " they ",
+												 " we ",
+												 " say ",
+												 " her ",
+												 " she ",
+												 " or ",
+											     " an ",
+												 " will ",
+                                                 " my ",
+                                                 " one ",
+                                                 " all ",
+												 " would ",
+												 " there ",
+												 " their ",
+												 " what ",
+												 " so ",
+												 " up ",
+												 " out ",
+												 " if ",
+												 " about ",
+												 " who ",
+												 " get ",
+												 " which ",
+												 " go ",
+												 " me ",
+												 " when ",
+												 " make ",
+												 " can ",
+												 " like ",
+												 " time ",
+												 " no ",
+												 " just ",
+												 " him ",
+												 " know ",
+												 " take ",
+												 " people ",
+												 " into ",
+												 " year ",
+												 " your ",
+												 " good ",
+												 " some ",
+												 " could ",
+												 " them ",
+												 " see ",
+												 " other ",
+												 " than ",
+												 " then ",
+												 " now ",
+												 " look ",
+												 " only ",
+												 " come ",
+												 " its ",
+												 " over ",
+												 " think ",
+												 " also ",
+												 " back ",
+												 " after ",
+												 " use ",
+												 " two ",
+												 " how ",
+												 " our ",
+												 " work ",
+												 " first ",
+												 " well ",
+												 " way ",
+												 " even ",
+												 " new ",
+												 " want ",
+												 " because ",
+												 " any ",
+												 " these ",
+												 " give ",
+												 " day ",
+												 " most ",
+												 " us ",
+												 " xor ",
+												 " buffer ",
+												 " encryption ",
+												 " crypto ",
+												 " cryptography ",
+												 " plaintext ",
+												 " ciphertext ",
+												 " key ",
+												 " p=",
+												 " q=",
+												 " xor ", 
+												 " XOR ",
+												 " OTP ",
+												 " otp ",
+												 " computer ",
+												 " computed ", // 114
+};
+
+static const int max_len = ('z' - 'a' + 1) + ('Z' -'A' + 1) + 1;
 
 inline size_t min(size_t a, size_t b)
 {
 	return (a<b?a:b);
-}
-
-std::vector<int> & MontaHistograma(void* buffer, size_t tamanho)
-{
-	unsigned char * pBuffer = (unsigned char*) buffer;
-	std::vector<int> * histograma = new std::vector<int>(256);
-	for ( int i=0; i<histograma->size(); i++ )
-	{
-		for ( size_t n = 0; n<tamanho; n++ )
-		{
-			if ( pBuffer[n] == (unsigned char) i )
-			{
-				histograma->data()[i] += 1;				
-			}
-		}
-	}
-
-	return (*histograma);
 }
 
 char GeradorCaracteres()
@@ -124,6 +216,15 @@ void singlebyte_xor(void * buffer, char c, size_t tamanho)
 	}
 }
 
+void buffer_xor(void * buffer, void * xoring_buffer, size_t tamanho_x)
+{
+	char* pBuffer = (char*) buffer;
+	char* pXor    = (char*) xoring_buffer;
+	for (int i=0; i<tamanho_x; i++)
+	{
+		pBuffer[i] = (char)(pBuffer[i] ^ pXor[i]);
+	}
+}
 
 int main(int argc, char* argv[])
 {
@@ -142,23 +243,6 @@ int main(int argc, char* argv[])
 	std::vector<char> * vetor_cifradas_9 = new std::vector<char>(ciphertext_9, ciphertext_9 + sizeof(ciphertext_9));
 	std::vector<char> * vetor_cifradas_10= new std::vector<char>(ciphertext_10,ciphertext_10+ sizeof(ciphertext_10));
 	
-	// Gera a lista de caracteres 0-9a-zA-Z
-	std::generate(xorchars->begin(), xorchars->end(), GeradorCaracteres);
-
-#ifdef _INCLUDE_SPECIAL_CHARS
-	// Insere alguns caracteres especiais
-	xorchars->push_back(' ');
-	/*xorchars->push_back('!');
-	xorchars->push_back('?');
-	xorchars->push_back(':');
-	xorchars->push_back('.');
-	xorchars->push_back(',');
-	xorchars->push_back('@');
-	xorchars->push_back('&');
-	xorchars->push_back('%');
-	xorchars->push_back('$');*/
-#endif
-
 	std::vector<char> & cross_cifradas_1 = crossvector_xor(*vetor_cifradas_t, *vetor_cifradas_1);
 	std::vector<char> & cross_cifradas_2 = crossvector_xor(*vetor_cifradas_t, *vetor_cifradas_2);
 	std::vector<char> & cross_cifradas_3 = crossvector_xor(*vetor_cifradas_t, *vetor_cifradas_3);
@@ -181,7 +265,6 @@ int main(int argc, char* argv[])
 	mensagens_cruzadas->push_back(cross_cifradas_9);
 	mensagens_cruzadas->push_back(cross_cifradas_10);
 
-	
 	int tamanho_forca_bruta = min( cross_cifradas_1.size(),
 								   min(cross_cifradas_2.size(),
 								   min(cross_cifradas_3.size(), 
@@ -192,154 +275,235 @@ int main(int argc, char* argv[])
 								   min(cross_cifradas_8.size(),
 								   min(cross_cifradas_9.size(), cross_cifradas_10.size())))))))));
 
-	std::list<std::vector<char>> lista_possibilidades(0);
-	
+	// Gera a lista de caracteres a-zA-Z
+	std::generate(xorchars->begin(), xorchars->end(), GeradorCaracteres);
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 1a metodologia: crib-dragging
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	for ( std::vector<char> & m : *mensagens_cruzadas )
+	{
+		static int n = 1;
+		std::string str = "-----------------------------------------------------------------------------------------\n";
+		
+		str += "Método crib-dragging para a mensagem " + std::to_string(n++) + ":\n";
+
+		ImprimeMensagem((unsigned char*)str.c_str(), str.size(), false, true);
+		for ( int i=0; i<114; i++ )
+		{
+
+			unsigned char* pXoringBuffer = &english_frequent[i][0];
+
+			std::string strPalavra = "Testando contra a palavra [" + std::string((char*)pXoringBuffer) + "] : \n\n";
+			ImprimeMensagem((unsigned char*)strPalavra.c_str(), strPalavra.size(), false, true);
+
+			for ( int offset = 0; offset<tamanho_forca_bruta; offset++ )
+			{
+				std::string strXoredBuffer;
+
+				int iTamanhoXor = min(strlen((const char*)pXoringBuffer), (tamanho_forca_bruta - offset));
+				std::vector<char> buffer(0);
+				std::copy( cross_cifradas_1.begin() + offset, 
+				           cross_cifradas_1.begin() + offset + iTamanhoXor,
+				   		   std::back_inserter(buffer));
+
+				for ( int fill=0; fill<offset; fill++)
+					strXoredBuffer += " ";
+
+				buffer_xor(buffer.data(), pXoringBuffer, iTamanhoXor);
+
+				for ( int j=0; j<buffer.size(); j++ )
+					strXoredBuffer += buffer.data()[j];
+
+				ImprimeMensagem((unsigned char*)strXoredBuffer.c_str(), strXoredBuffer.size(), false, true);
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 2a metodologia: análise de caracteres
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	std::vector<std::vector<char> *>  lista_possibilidades(tamanho_forca_bruta);
+	for ( int i=0; i<tamanho_forca_bruta; i++) {
+		lista_possibilidades.at(i) = new std::vector<char>(0);
+	}
+	
 	for ( std::vector<char> & v : *mensagens_cruzadas )
 	{
 		static int n = 1;
-		
-		std::cout << "Mensagem " << n << ": " << std::endl;
-		for ( int k=0; k<tamanho_forca_bruta; k++ )
-		{
-			char c = ' '; // 0x20;
 
-			if ( 0x00 == v.at(k) )
+		for ( int k=0; k<tamanho_forca_bruta; k++ )		
+		{			
+			// 1a possibilidade "espaço"
+			if ( v.at(k) == 0x00 )
 			{
-					std::cout << "?";
+				if ( lista_possibilidades.at(k)->end() == 
+					 std::find(lista_possibilidades.at(k)->begin(),
+					           lista_possibilidades.at(k)->end(),
+							   ' ' ) )
+				{
+					lista_possibilidades.at(k)->push_back(' ');
+				}
+			}
+
+			else if ( xorchars->end() != std::find(xorchars->begin(), xorchars->end(), v.at(k)) )
+			{
+				if ( lista_possibilidades.at(k)->end() == 
+					 std::find(lista_possibilidades.at(k)->begin(),
+					           lista_possibilidades.at(k)->end(),
+							   ' ' ) )
+				{
+					lista_possibilidades.at(k)->push_back(' ');
+				}
 			}
 			else
 			{
-				unsigned char xor_res = v.at(k) ^ c;
-				if ( xorchars->end() != std::find(xorchars->begin(), xorchars->end(), xor_res) )
+				if ( lista_possibilidades.at(k)->end() != 
+					 std::find(lista_possibilidades.at(k)->begin(),
+					           lista_possibilidades.at(k)->end(),
+							   ' ' ) )
 				{
-					std::cout << " ";
+					lista_possibilidades.at(k)->erase(std::find(lista_possibilidades.at(k)->begin(),
+													   		    lista_possibilidades.at(k)->end(),
+																' ' ) );
 				}
-				else
-				{
-					std::vector<char> possibilidades(0);
-					for ( char c : *xorchars )
-					{
-						unsigned char xor_res = v.at(k) ^ c;
-						if ( xorchars->end() != std::find(xorchars->begin(), xorchars->end(), xor_res) )
-						{
-							possibilidades.push_back(c);
-						}
-						else if ( xor_res == ' ' )
-						{
-							possibilidades.push_back(c);
-						}
-					}
+			}
 
-					if ( !possibilidades.empty() )
+			// 2a possibilidade "letra"
+			if ( v.at(k) > 0x00 && v.at(k) <= 0x1B )
+			{
+				// Pode ser uma letra com a mesma caixa
+				for ( char c : *xorchars )
+				{
+					char xor_res = v.at(k) ^ c;
+					if ( (c >= 0x41 && c <= 0x5A ) &&
+						 ( xor_res >= 0x41 && xor_res <= 0x5A ) )
 					{
-						for (char v : possibilidades )
+						if ( lista_possibilidades.at(k)->end() == 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
 						{
-							std::cout << v << ",";
+							lista_possibilidades.at(k)->push_back(c);
 						}
 					}
-					else 
+					else if ( (c >= 0x61 && c <= 0x7A ) &&
+						 ( xor_res >= 0x61 && xor_res <= 0x7A ) )
 					{
-						std::cout << "*";
+						if ( lista_possibilidades.at(k)->end() == 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
+						{
+							lista_possibilidades.at(k)->push_back(c);
+						}
+					}
+					else
+					{
+						if ( lista_possibilidades.at(k)->end() != 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
+						{
+							lista_possibilidades.at(k)->erase(std::find(lista_possibilidades.at(k)->begin(),
+							  					   		      lista_possibilidades.at(k)->end(),
+															  c ) );
+						}
+					}
+				}
+			} 
+			else if ( v.at(k) > 0x20 && v.at(k) <= 0x3B )
+			{
+				// Pode ser uma letra com caixa invertida
+				for ( char c : *xorchars )
+				{
+					char xor_res = v.at(k) ^ c;
+					if ( (c >= 0x41 && c <= 0x5A ) &&
+						 ( xor_res >= 0x61 && xor_res <= 0x7A ) )
+					{
+						if ( lista_possibilidades.at(k)->end() == 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
+						{
+							lista_possibilidades.at(k)->push_back(c);
+						}
+					}
+					else if ( (c >= 0x61 && c <= 0x7A ) &&
+						 ( xor_res >= 0x41 && xor_res <= 0x5A ) )
+					{
+						if ( lista_possibilidades.at(k)->end() == 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
+						{
+							lista_possibilidades.at(k)->push_back(c);
+						}
+					}
+					else
+					{
+						if ( lista_possibilidades.at(k)->end() != 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c ) )
+						{
+							lista_possibilidades.at(k)->erase(std::find(lista_possibilidades.at(k)->begin(),
+							  					   		      lista_possibilidades.at(k)->end(),
+															  c ) );
+						}
+					}
+				}
+			} 
+			else 
+			{
+				for ( char c : *xorchars )
+				{
+					char xor_res = v.at(k) ^ c;
+					if ( xor_res == (c^0x20) )
+					{
+						if ( lista_possibilidades.at(k)->end() == 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c^0x20 ) )
+						{
+							lista_possibilidades.at(k)->push_back(c^0x20);
+						}
+					}
+					else
+					{
+						if ( lista_possibilidades.at(k)->end() != 
+							 std::find(lista_possibilidades.at(k)->begin(),
+									   lista_possibilidades.at(k)->end(),
+									   c^0x20 ) )
+						{
+							lista_possibilidades.at(k)->erase(std::find(lista_possibilidades.at(k)->begin(),
+							  					   		      lista_possibilidades.at(k)->end(),
+															  c^0x20 ) );
+						}
 					}
 				}
 			}
-			std::cout << std::endl;
+
 		}
 
 		std::cout << std::endl << std::endl;
 	}
 
-	for ( int k=0; k<tamanho_forca_bruta; k++ )
-	{
-		std::vector<char> possibilidades(0);
-		for ( char c : *xorchars )
-		{
-			int n = 1;
-			for ( std::vector<char> & v : *mensagens_cruzadas )
-			{
-				// -------------------------------------------------------------------
-				// Informacoes uteis da tabela ASCII:
-				// 0x20 : Espaço
-				// 0x41 : A
-				// 0x5A : Z
-				// 0x61 : a
-				// 0x7A : z
-				// -------------------------------------------------------------------
-				// 1a hipotese:
-				// p0[0] = ESPACO
-				// Se X[0] = [A-Za-z] -> p1[0] = [A-Za-z]
-				// Se x[0] = 0x00     -> p1[0] = ESPACO
-
-
-				unsigned char xor_res = v.at(k) ^ c;
-
-				if ( xorchars->end() != std::find(xorchars->begin(), xorchars->end(), xor_res) )
-				{
-					// this caracter is valid to compose m0, if is not in vector, put it!
-					if ( possibilidades.end() == std::find(possibilidades.begin(), possibilidades.end(), c ) )
-					{
-						//std::cout << c << " is valid." << std::endl;
-						possibilidades.push_back(c);
-					}
-				}
-				else
-				{
-					// not valid
-					// if is in the list, remove it!
-					if ( possibilidades.end() != std::find(possibilidades.begin(), possibilidades.end(), c ) )
-					{
-						//std::cout << "\t" << c << " is NOT valid for message " << n << "." << std::endl;
-						possibilidades.erase(std::find(possibilidades.begin(), possibilidades.end(), c));
-					}
-				}
-				n++;
-			}
-		}
-
-		std::cout << "Encontradas " << possibilidades.size() << " possibilidades para a posicao " << k << std::endl;
-		lista_possibilidades.push_back(possibilidades);
-	}
-
-	for ( std::vector<char> p : lista_possibilidades )
+	for ( std::vector<char> *p : lista_possibilidades )
 	{
 		static int pos = 0;
-		std::cout << std::setw(2) << std::setfill('0') << pos << ":";
+		std::cout << std::setw(2) << std::setfill('0') << pos << "("  << p->size() << "):";
 
-		for ( int n=0; n<p.size(); n++ )
+		for ( int n=0; n<p->size(); n++ )
 		{
-			std::cout << p.at(n) << " ";
+			std::cout << p->at(n) << ",";
 		}
 
 		std::cout << std::endl;
 		pos++;
 	}
 
-	for ( std::vector<char> p : lista_possibilidades )
-	{
-		if ( p.size() == 0 )
-		{
-			std::cout << "_";
-		}
-		else if ( p.size() == 1 )
-		{
-			std::cout << p.at(0);
-		}
-		else if ( p.size() == 2 )
-		{
-			if ( p.at(0) == ' ' )
-				std::cout << p.at(1);
-			else
-				std::cout << p.at(0);
-		}
-		else
-		{
-			std::cout << "?";
-		}
-	}
-	std::cout << std::endl;
-
-
 	return 0;
 }
-
